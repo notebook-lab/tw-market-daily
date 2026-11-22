@@ -78,7 +78,17 @@
   td[align="right"], th[align="right"] { text-align: right; }
   .empty { color: var(--muted); padding: 24px 0; }
   footer { color: var(--muted); font-size: 12px; margin-top: 18px; }
-  @media (max-width: 520px) { body { font-size: 14.5px; } article h2 { font-size: 17px; } }
+  @media (max-width: 520px) {
+    body { font-size: 16px; line-height: 1.8; padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); }
+    header h1 { font-size: 21px; }
+    article h1 { font-size: 21px; }
+    article h2 { font-size: 19px; }
+    article h3 { font-size: 17px; }
+    table { font-size: 13.5px; }
+    th, td { padding: 7px 9px; }
+    .chip { font-size: 14px; padding: 8px 13px; }
+    footer { font-size: 13px; }
+  }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   article a.ref { text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
   .flash { background: var(--callout); border-radius: 4px; box-shadow: 0 0 0 4px var(--callout); transition: background .5s, box-shadow .5s; }

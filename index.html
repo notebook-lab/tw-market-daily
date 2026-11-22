@@ -210,6 +210,16 @@
       tocEl.appendChild(b);
     });
     footEl.textContent = '共 ' + data.length + ' 期日報，目前顯示 ' + (r.label || r.date) + '。';
+    var fb = document.createElement('div');
+    fb.style.marginTop = '8px';
+    fb.appendChild(document.createTextNode('資料有誤或有閱讀建議，歡迎'));
+    var fa = document.createElement('a');
+    fa.href = 'https://forms.gle/T6gnpxPkbpoKLeSW9';
+    fa.target = '_blank'; fa.rel = 'noopener noreferrer';
+    fa.textContent = '填寫回饋表單';
+    fb.appendChild(fa);
+    fb.appendChild(document.createTextNode('（不接受個股買賣諮詢，也不會逐一回覆）。'));
+    footEl.appendChild(fb);
     if (scrollTop) window.scrollTo(0, 0);
     updateBack();
   }

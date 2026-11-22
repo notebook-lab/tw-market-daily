@@ -36,19 +36,19 @@
   }
   * { box-sizing: border-box; }
   body {
-    background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.75;
+    background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.8;
     padding-block: 20px 56px;
     padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
   .wrap { max-width: 980px; margin: 0 auto; min-width: 0; }
   header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 14px; }
-  header h1 { font-size: 22px; margin: 0; letter-spacing: .02em; }
-  header .sub { color: var(--muted); font-size: 13px; }
-  .row-label { font-size: 12px; color: var(--muted); letter-spacing: .08em; margin: 14px 0 6px; }
+  header h1 { font-size: 26px; margin: 0; letter-spacing: .02em; }
+  header .sub { color: var(--muted); font-size: 14.5px; }
+  .row-label { font-size: 13.5px; color: var(--muted); letter-spacing: .08em; margin: 14px 0 6px; }
   .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
   .chip {
     flex: 0 0 auto; border: 1px solid var(--line); background: var(--surface); color: var(--fg);
-    font: inherit; font-size: 13px; line-height: 1.2; padding: 7px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+    font: inherit; font-size: 15px; line-height: 1.2; padding: 8px 14px; border-radius: 6px; cursor: pointer; white-space: nowrap;
   }
   .chip:hover { border-color: var(--accent); }
   .chip[aria-current="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 700; }
@@ -57,27 +57,27 @@
     background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
     margin-top: 16px; padding: 22px clamp(14px, 4vw, 34px) 30px; min-width: 0;
   }
-  article h1 { font-size: 20px; margin: 0 0 12px; line-height: 1.4; text-wrap: balance; }
-  article h2 { font-size: 18px; margin: 34px 0 10px; padding-top: 18px; border-top: 1px solid var(--line); line-height: 1.4; text-wrap: balance; scroll-margin-top: 12px; }
+  article h1 { font-size: 24px; margin: 0 0 12px; line-height: 1.4; text-wrap: balance; }
+  article h2 { font-size: 21px; margin: 34px 0 10px; padding-top: 18px; border-top: 1px solid var(--line); line-height: 1.4; text-wrap: balance; scroll-margin-top: 12px; }
   article h2:first-of-type { }
-  article h3 { font-size: 15.5px; margin: 24px 0 8px; color: var(--accent); scroll-margin-top: 12px; }
+  article h3 { font-size: 18px; margin: 24px 0 8px; color: var(--accent); scroll-margin-top: 12px; }
   article p { margin: 8px 0; }
   article ul, article ol { margin: 8px 0; padding-left: 1.4em; }
   article li { margin: 4px 0; }
   article a { color: var(--accent); word-break: break-all; }
   article strong { font-weight: 700; }
-  article code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; word-break: break-all; }
+  article code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 14.5px; word-break: break-all; }
   .callout { background: var(--callout); border-left: 4px solid var(--callout-line); padding: 8px 14px; border-radius: 4px; margin: 12px 0; }
   .tbl-wrap { overflow-x: auto; margin: 12px 0; border: 1px solid var(--line); border-radius: 6px; max-width: 100%; }
-  table { border-collapse: collapse; width: 100%; font-size: 12.5px; line-height: 1.5; font-variant-numeric: tabular-nums; }
-  th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
   td:first-child, th:first-child { white-space: nowrap; }
   thead th { background: var(--accent-soft); color: var(--fg); font-weight: 700; position: sticky; top: 0; }
   tbody tr:last-child td { border-bottom: 0; }
   tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 35%, transparent); }
   td[align="right"], th[align="right"] { text-align: right; }
   .empty { color: var(--muted); padding: 24px 0; }
-  footer { color: var(--muted); font-size: 12px; margin-top: 18px; }
+  footer { color: var(--muted); font-size: 14px; margin-top: 18px; }
   @media (max-width: 520px) {
     body { font-size: 16px; line-height: 1.8; padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); }
     header h1 { font-size: 21px; }
@@ -114,7 +114,7 @@
   <button type="button" class="back" id="back" hidden>← 返回剛才閱讀的位置</button>
   <article id="body" aria-live="polite"><p class="empty">載入中…</p></article>
   <footer id="foot"></footer>
-<p style="color:var(--muted);font-size:12px;margin:6px 0 0">本站使用不含 Cookie 的流量統計。</p>
+<p style="color:var(--muted);font-size:14px;margin:6px 0 0">本站使用不含 Cookie 的流量統計。</p>
 <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ebcd4464cff3404aa8dfc07f7cef4927"}'></script><!-- End Cloudflare Web Analytics -->
 </div>
 

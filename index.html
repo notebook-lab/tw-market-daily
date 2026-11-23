@@ -10,28 +10,18 @@
 <style>
   /* Layout: a single reading column, date archive on top, section jump chips under it, report body below. */
   :root {
-    --bg: #f4f5f7;
-    --surface: #ffffff;
-    --fg: #1a2230;
-    --muted: #596478;
-    --line: #dce0e7;
-    --accent: #1d4f91;
-    --accent-soft: #e4ecf7;
-    --callout: #fff4d6;
-    --callout-line: #e3b341;
-    --code: #eceff4;
+    /* 固定暗色系（使用者決定 2026-11-23），不跟系統深淺色切換 */
+    --bg: #0e131a;
+    --surface: #161c26;
+    --fg: #e5e9f0;
+    --muted: #9aa5b8;
+    --line: #2a3342;
+    --accent: #7fb0ec;
+    --accent-soft: #1d2b40;
+    --callout: #2b2614;
+    --callout-line: #b58a25;
+    --code: #1f2733;
     --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #10151d; --surface: #171d27; --fg: #e5e9f0; --muted: #98a3b5; --line: #2a3342;
-      --accent: #7fb0ec; --accent-soft: #1d2b40; --callout: #2b2614; --callout-line: #b58a25; --code: #1f2733;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #10151d; --surface: #171d27; --fg: #e5e9f0; --muted: #98a3b5; --line: #2a3342;
-    --accent: #7fb0ec; --accent-soft: #1d2b40; --callout: #2b2614; --callout-line: #b58a25; --code: #1f2733;
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
@@ -76,9 +66,7 @@
   tbody tr:last-child td { border-bottom: 0; }
   tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 35%, transparent); }
   td[align="right"], th[align="right"] { text-align: right; }
-  :root { --neg: #b4432b; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --neg: #f0866b; } }
-  :root[data-theme="dark"] { --neg: #f0866b; }
+  :root { --neg: #f0866b; }
   .charts { margin: 18px 0 8px; }
   .charts .ch-kicker { font-size: 13px; letter-spacing: .12em; color: var(--muted); margin: 0 0 2px; }
   .charts .ch-fig { margin: 0 0 22px; padding-top: 10px; border-top: 2px solid var(--fg); }

@@ -79,20 +79,28 @@
   :root { --neg: #b4432b; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --neg: #f0866b; } }
   :root[data-theme="dark"] { --neg: #f0866b; }
-  .charts { margin: 14px 0 6px; }
-  .charts .ch-head { font-weight: 700; margin: 0 0 4px; }
-  .charts .ch-fig { margin: 14px 0 18px; }
-  .charts .ch-panel { margin: 8px 0 2px; }
-  .charts .ch-ptitle { font-size: 14.5px; color: var(--muted); margin: 0; }
-  .charts svg { display: block; width: 100%; max-width: 560px; height: auto; }
-  .charts .ch-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
-  .charts .ch-dot { fill: var(--accent); }
-  .charts .ch-pos { fill: var(--accent); }
-  .charts .ch-neg { fill: var(--neg); }
-  .charts .ch-axis { stroke: var(--line); stroke-width: 1; }
+  .charts { margin: 18px 0 8px; }
+  .charts .ch-kicker { font-size: 13px; letter-spacing: .12em; color: var(--muted); margin: 0 0 2px; }
+  .charts .ch-fig { margin: 0 0 22px; padding-top: 10px; border-top: 2px solid var(--fg); }
+  .charts .ch-title { font-size: 17px; font-weight: 700; line-height: 1.5; margin: 0; }
+  .charts .ch-sub { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin: 2px 0 8px; }
+  .charts .ch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 22px; }
+  @media (max-width: 640px) { .charts .ch-grid { grid-template-columns: 1fr; } }
+  .charts .ch-panel { margin: 4px 0; min-width: 0; }
+  .charts .ch-ptitle { font-size: 13.5px; color: var(--muted); margin: 0 0 -2px; }
+  .charts svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .charts .ch-line { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+  .charts .ch-area { fill: var(--accent); opacity: .09; stroke: none; }
+  .charts .ch-dot { fill: var(--surface); stroke: var(--accent); stroke-width: 1.4; }
+  .charts .ch-end { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+  .charts .ch-pos { fill: var(--accent); opacity: .85; }
+  .charts .ch-neg { fill: var(--neg); opacity: .85; }
+  .charts .ch-grid-l { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; }
+  .charts .ch-axis { stroke: var(--muted); stroke-width: 1; opacity: .55; }
   .charts .ch-txt { fill: var(--muted); font-size: 10.5px; font-family: inherit; }
-  .charts .ch-val { fill: var(--fg); font-size: 11px; font-weight: 700; font-family: inherit; }
-  .charts .ch-note { font-size: 13.5px; color: var(--muted); margin: 2px 0 0; }
+  .charts .ch-val { fill: var(--muted); font-size: 11px; font-family: inherit; }
+  .charts .ch-val-end { fill: var(--fg); font-size: 12px; font-weight: 700; font-family: inherit; }
+  .charts .ch-note { font-size: 13px; color: var(--muted); margin: 0; }
   .empty { color: var(--muted); padding: 24px 0; }
   footer { color: var(--muted); font-size: 14px; margin-top: 18px; }
   @media (max-width: 520px) {
@@ -236,7 +244,9 @@
     var pad = (mx - mn) * 0.12; mx += pad; if (kind !== 'bar' || mn < 0) mn -= pad;
     function x(i) { return L + (n === 1 ? 0 : i * (W - L - R) / (n - 1)); }
     function y(v) { return T + (mx - v) / (mx - mn) * (H - T - B); }
-    var g = '<line class="ch-axis" x1="' + L + '" x2="' + (W - R + 8) + '" y1="' + (H - B + 2) + '" y2="' + (H - B + 2) + '"/>';
+    var g = '';
+    [0, 1, 2].forEach(function (j) { var gy = T + (H - T - B) * j / 2; g += '<line class="ch-grid-l" x1="' + L + '" x2="' + (W - R + 8) + '" y1="' + gy.toFixed(1) + '" y2="' + gy.toFixed(1) + '"/>'; });
+    g += '<line class="ch-axis" x1="' + L + '" x2="' + (W - R + 8) + '" y1="' + (H - B + 2) + '" y2="' + (H - B + 2) + '"/>';
     var step = (W - L - R) / Math.max(1, n - 1), bw = Math.min(26, step * 0.62);
     var hi = vals.indexOf(Math.max.apply(null, vals)), lo = vals.indexOf(Math.min.apply(null, vals));
     var mark = {};
@@ -254,16 +264,21 @@
       mark = {}; mark[n - 1] = 1; var ab = 0; vals.forEach(function (v, i) { if (Math.abs(v) > Math.abs(vals[ab])) ab = i; }); mark[ab] = 1;
       Object.keys(mark).forEach(function (k) {
         var i = +k, v = vals[i], yy = y(v), up = v >= 0;
-        g += '<text class="ch-val" x="' + x(i).toFixed(1) + '" y="' + (up ? yy - 4 : yy + 12).toFixed(1) + '" text-anchor="' + (i === n - 1 ? 'end' : 'middle') + '">' + cfmt(v) + '</text>';
+        g += '<text class="' + (i === n - 1 ? 'ch-val-end' : 'ch-val') + '" x="' + x(i).toFixed(1) + '" y="' + (up ? yy - 4 : yy + 12).toFixed(1) + '" text-anchor="' + (i === n - 1 ? 'end' : 'middle') + '">' + cfmt(v) + '</text>';
       });
     } else {
       var pts = vals.map(function (v, i) { return x(i).toFixed(1) + ',' + y(v).toFixed(1); }).join(' ');
+      g += '<polygon class="ch-area" points="' + x(0).toFixed(1) + ',' + (H - B + 2) + ' ' + pts + ' ' + x(n - 1).toFixed(1) + ',' + (H - B + 2) + '"/>';
       g += '<polyline class="ch-line" points="' + pts + '"/>';
-      vals.forEach(function (v, i) { g += '<circle class="ch-dot" cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="' + (mark[i] ? 3 : 2) + '"/>'; });
+      Object.keys(mark).forEach(function (k) {
+        var i = +k; if (i === n - 1) return;
+        g += '<circle class="ch-dot" cx="' + x(i).toFixed(1) + '" cy="' + y(vals[i]).toFixed(1) + '" r="3"/>';
+      });
+      g += '<circle class="ch-end" cx="' + x(n - 1).toFixed(1) + '" cy="' + y(vals[n - 1]).toFixed(1) + '" r="4.5"/>';
       Object.keys(mark).forEach(function (k) {
         var i = +k, v = vals[i], last = i === n - 1;
         var ty = last ? y(v) + 4 : (i === lo && i !== 0 ? y(v) + 14 : y(v) - 7);
-        g += '<text class="ch-val" x="' + (last ? x(i) + 7 : x(i)).toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="' + (last ? 'start' : (i === 0 ? 'start' : 'middle')) + '">' + cfmt(v) + '</text>';
+        g += '<text class="' + (last ? 'ch-val-end' : 'ch-val') + '" x="' + (last ? x(i) + 7 : x(i)).toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="' + (last ? 'start' : (i === 0 ? 'start' : 'middle')) + '">' + cfmt(v) + '</text>';
       });
     }
     g += xlabels(sr.labels, x, H, B);
@@ -281,15 +296,19 @@
     if (!A || !Bt) return;
     var idx = series(A.d, '加權指數'), mg = series(Bt.d, '融資餘額'), kr = series(Bt.d, '官方整戶維持率'),
         ac = series(Bt.d, '低於 130%'), fs = series(Bt.d, '外資現貨'), ff = series(Bt.d, '外資台指期');
+    function rng(s) { return s.labels[0] + ' 到 ' + s.labels[s.labels.length - 1]; }
+    function pct(s) { var f = s.vals[0], l = s.vals[s.vals.length - 1], p = (l - f) / Math.abs(f) * 100; return (p >= 0 ? '+' : '') + p.toFixed(1) + '%'; }
+    function ext(s, big) { var v = big ? Math.max.apply(null, s.vals) : Math.min.apply(null, s.vals); return { v: v, d: s.labels[s.vals.indexOf(v)] }; }
+    function sum(s) { return s.vals.reduce(function (a, b) { return a + b; }, 0); }
     var figs = [];
-    if (idx && mg) figs.push(['指數與融資餘額', panel('加權指數（點）', idx, 'line') + panel('融資餘額（億元）', mg, 'line')]);
-    if (kr && ac) figs.push(['整戶維持率與低於 130% 戶數', panel('整戶擔保維持率（%）', kr, 'line') + panel('低於 130% 戶數（戶）', ac, 'bar')]);
-    if (fs && ff) figs.push(['外資現貨與期貨', panel('外資現貨買賣超（億元；負值為賣超）', fs, 'bar') + panel('外資台指期淨未平倉（口；負值為淨空單）', ff, 'line')]);
+    if (idx && mg) figs.push(['圖 1　指數與融資餘額', '加權指數 ' + rng(idx) + ' ' + pct(idx) + '；融資餘額 ' + pct(mg) + '。', panel('加權指數（點）', idx, 'line') + panel('融資餘額（億元）', mg, 'line')]);
+    if (kr && ac) { var kmin = ext(kr, false), amax = ext(ac, true); figs.push(['圖 2　整戶維持率與低於 130% 戶數', '維持率最低 ' + cfmt(kmin.v) + '%（' + kmin.d + '），最新 ' + cfmt(kr.vals[kr.vals.length - 1]) + '%；低於 130% 戶數最多 ' + cfmt(amax.v) + ' 戶（' + amax.d + '），最新 ' + cfmt(ac.vals[ac.vals.length - 1]) + ' 戶。', panel('整戶擔保維持率（%）', kr, 'line') + panel('低於 130% 戶數（戶）', ac, 'bar')]); }
+    if (fs && ff) figs.push(['圖 3　外資現貨與期貨', '外資現貨 ' + rng(fs) + ' 合計 ' + cfmt(Math.round(sum(fs) * 10) / 10) + ' 億元；台指期淨未平倉最新 ' + cfmt(ff.vals[ff.vals.length - 1]) + ' 口。', panel('外資現貨買賣超（億元；負值為賣超）', fs, 'bar') + panel('外資台指期淨未平倉（口；負值為淨空單）', ff, 'line')]);
     if (!figs.length) return;
     var box = mk('div', 'charts');
-    var html = '<p class="ch-head">走勢圖</p>';
-    figs.forEach(function (f) { html += '<div class="ch-fig"><p class="ch-head">' + f[0] + '</p>' + f[1] + '</div>'; });
-    html += '<p class="ch-note">圖由下方「表 A、表 B」的數字畫出，標「待補」的日期不畫；數字與來源以表格與各節說明為準。</p>';
+    var html = '<p class="ch-kicker">圖表</p>';
+    figs.forEach(function (f) { html += '<div class="ch-fig"><p class="ch-title">' + f[0] + '</p><p class="ch-sub">' + f[1] + '</p><div class="ch-grid">' + f[2] + '</div></div>'; });
+    html += '<p class="ch-note">圖由下方表 A、表 B 的數字畫出，「待補」的日期不畫；數字與來源以表格與各節說明為準。</p>';
     box.innerHTML = html;
     var anchor = A.t.parentNode.classList && A.t.parentNode.classList.contains('tbl-wrap') ? A.t.parentNode : A.t;
     var prev = anchor.previousElementSibling;

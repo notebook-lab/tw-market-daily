@@ -89,6 +89,17 @@
   .charts .ch-val { fill: var(--muted); font-size: 11px; font-family: inherit; }
   .charts .ch-val-end { fill: var(--fg); font-size: 12px; font-weight: 700; font-family: inherit; }
   .charts .ch-note { font-size: 13px; color: var(--muted); margin: 0; }
+  /* 文字型表格（第一欄不是日期，例如「項目｜狀態｜出處」）：手機上每列改成一張小卡，避免欄位被擠成一字寬 */
+  .tbl-wrap.cards td:first-child { white-space: normal; }
+  @media (max-width: 640px) {
+    .tbl-wrap.cards { border: 0; overflow: visible; }
+    .cards table, .cards tbody, .cards tr, .cards td { display: block; width: 100%; }
+    .cards thead { display: none; }
+    .cards tr { border: 1px solid var(--line); border-radius: 8px; margin: 0 0 10px; padding: 6px 12px; background: var(--surface); }
+    .cards td { border: 0; padding: 3px 0; background: none !important; }
+    .cards td:first-child { font-weight: 700; }
+    .cards td:not(:first-child)::before { content: attr(data-label) "："; color: var(--muted); font-size: 13px; }
+  }
   .empty { color: var(--muted); padding: 24px 0; }
   footer { color: var(--muted); font-size: 14px; margin-top: 18px; }
   @media (max-width: 520px) {
@@ -318,6 +329,15 @@
     }
     Array.prototype.forEach.call(bodyEl.querySelectorAll('table'), function (t) {
       var w = mk('div', 'tbl-wrap'); t.parentNode.insertBefore(w, t); w.appendChild(t);
+    });
+    Array.prototype.forEach.call(bodyEl.querySelectorAll('.tbl-wrap'), function (w) {
+      var t = w.querySelector('table'), hs = Array.prototype.map.call(t.querySelectorAll('thead th'), function (th) { return th.textContent.trim(); });
+      if (hs.length && hs[0] !== '日期' && hs.length <= 4) {
+        w.classList.add('cards');
+        Array.prototype.forEach.call(t.querySelectorAll('tbody tr'), function (tr) {
+          Array.prototype.forEach.call(tr.children, function (td, i) { td.setAttribute('data-label', hs[i] || ''); });
+        });
+      }
     });
     try { drawCharts(bodyEl); } catch (e) { }
     Array.prototype.forEach.call(bodyEl.querySelectorAll('h2, h3'), function (h) {

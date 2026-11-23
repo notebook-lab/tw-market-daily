@@ -239,7 +239,11 @@
     var g = '<line class="ch-axis" x1="' + L + '" x2="' + (W - R + 8) + '" y1="' + (H - B + 2) + '" y2="' + (H - B + 2) + '"/>';
     var step = (W - L - R) / Math.max(1, n - 1), bw = Math.min(26, step * 0.62);
     var hi = vals.indexOf(Math.max.apply(null, vals)), lo = vals.indexOf(Math.min.apply(null, vals));
-    var mark = {}; mark[0] = 1; mark[n - 1] = 1; mark[hi] = 1; mark[lo] = 1;
+    var mark = {};
+    [n - 1, hi, lo, 0].forEach(function (i) {   // priority order; skip a label whose neighbour (within 2 points) is already labelled
+      var clash = Object.keys(mark).some(function (k) { return Math.abs(+k - i) <= 1 && +k !== i; });
+      if (!clash) mark[i] = 1;
+    });
     if (kind === 'bar') {
       var y0 = y(0);
       g += '<line class="ch-axis" x1="' + L + '" x2="' + (W - R + 8) + '" y1="' + y0.toFixed(1) + '" y2="' + y0.toFixed(1) + '"/>';

@@ -251,7 +251,7 @@
     var hi = vals.indexOf(Math.max.apply(null, vals)), lo = vals.indexOf(Math.min.apply(null, vals));
     var mark = {};
     [n - 1, hi, lo, 0].forEach(function (i) {   // priority order; skip a label whose neighbour (within 2 points) is already labelled
-      var clash = Object.keys(mark).some(function (k) { return Math.abs(+k - i) <= 1 && +k !== i; });
+      var clash = i !== n - 1 && Object.keys(mark).some(function (k) { return +k !== n - 1 && Math.abs(+k - i) <= 1 && +k !== i; });
       if (!clash) mark[i] = 1;
     });
     if (kind === 'bar') {
